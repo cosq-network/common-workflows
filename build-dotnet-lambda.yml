@@ -6,12 +6,15 @@ on:
       project_name:
         description: 'Name of the .NET Core Lambda project'
         required: true
+        type: string
       zip_file_name:
         description: 'Name for the zip file'
         required: true
+        type: string
       artifact_name:
         description: 'Name for the GitHub artifact'
         required: true
+        type: string
 
 jobs:
   build-and-package:
