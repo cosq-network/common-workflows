@@ -29,6 +29,16 @@ on:
         required: false
         type: string
         default: 'prod'
+      template_repo:
+        description: 'Name of the common template repository for cloud formation files'
+        required: false
+        type: string
+        default: 'cosq-network/common-aws-infrastructure'
+      template_repo_ref:
+        description: 'Name of the common template repository for cloud formation files'
+        required: false
+        type: string
+        default: 'master'
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -45,6 +55,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.template_repo }}
+          ref: ${{ inputs.template_repo_ref }}
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
