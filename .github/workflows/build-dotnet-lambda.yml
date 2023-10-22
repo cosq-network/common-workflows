@@ -20,15 +20,6 @@ on:
         required: false
         type: string
         default: 'prod'
-      stack_name:
-        description: 'Name of the stack'
-        required: true
-        type: string
-      template_file:
-        description: 'Path of the template file'
-        required: false
-        type: string
-        default: '.aws/templates/lambda.yml'
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -66,8 +57,8 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-    - name: Deploy Lambda
-      uses: cosq-network/aws-cloudformation-deploy@v1.2.0
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
       with:
-        stackName: ${{ inputs.stack_name }}
-        templateFile: ${{ inputs.template_file }}
+        name: ${{ inputs.artifact_name }}-${{ inputs.env_name }}
+        path: ${{ inputs.zip_file_name }}
