@@ -99,4 +99,4 @@ jobs:
         run: |
           aws lambda update-function-configuration \
           --function-name ${{ inputs.lambda_name }} \
-          --environment "Variables=${{ inputs.variables }}"
+          --environment "Variables={${{ inputs.variables }}}"
