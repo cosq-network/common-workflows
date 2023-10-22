@@ -38,6 +38,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ inputs.artifact_name }}
+          path: ${{ github.workspace }}/downloads
 
-      - name: Unzip artifact
-        run: unzip ${{ inputs.artifact_name }}
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: ${{ github.workspace }}/downloads
+
+      # - name: Unzip artifact
+      #   run: unzip ${{ inputs.artifact_name }}
