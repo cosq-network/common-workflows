@@ -52,9 +52,6 @@ on:
         required: true
       AWS_REGION:
         required: true
-      SECURITY_GROUP_ID:
-        description: The ID of the security group.
-        required: true
       LAMBDA_ROLE_ARN:
         description: The ARN of the Lambda role.
         required: true
@@ -92,7 +89,6 @@ jobs:
               "FunctionName": "${{ inputs.lambda_name }}",
               "Runtime": "${{ inputs.runtime }}",
               "Handler": "${{ inputs.handler }}",
-              "SecurityGroupId": "${{ secrets.SECURITY_GROUP_ID }}",
               "LambdaExecutionRoleArn": "${{ secrets.LAMBDA_ROLE_ARN }}"
             }
 
