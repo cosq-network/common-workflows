@@ -15,6 +15,15 @@ on:
         description: The handler of the Lambda function.
         required: true
         type: string
+      template:
+        description: 'Filename with path of the template'
+        required: false
+        type: string
+        default: .aws/templates/lambda.yml
+      stack_name:
+        description: 'Name of the stack'
+        required: false
+        type: string
       artifact_name:
         description: The name of the artifact to download.
         required: true
@@ -36,15 +45,6 @@ on:
         required: false
         type: string
         default: 'prod'
-      template:
-        description: 'Filename with path of the template'
-        required: false
-        type: string
-        default: .aws/templates/lambda.yml
-      stack_name:
-        description: 'Name of the stack'
-        required: false
-        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
