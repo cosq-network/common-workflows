@@ -44,5 +44,5 @@ jobs:
         run: ls -R
         working-directory: ${{ github.workspace }}/downloads
 
-      # - name: Unzip artifact
-      #   run: unzip ${{ inputs.artifact_name }}
+      - name: Unzip artifact
+        run: unzip ${{ github.workspace }}/downloads/${{ inputs.zip_file_name }}
