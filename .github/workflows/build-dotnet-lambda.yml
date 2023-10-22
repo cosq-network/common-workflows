@@ -1,0 +1,42 @@
+name: Build and Package .NET Core Lambda
+
+on:
+  workflow_call:
+    inputs:
+      project_name:
+        description: 'Name of the .NET Core Lambda project'
+        required: true
+      zip_file_name:
+        description: 'Name for the zip file'
+        required: true
+      artifact_name:
+        description: 'Name for the GitHub artifact'
+        required: true
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.x
+
+    - name: Install .NET Core Lambda tool
+      run: dotnet tool install -g Amazon.Lambda.Tools
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build Lambda project
+      run: dotnet lambda package --project-location ./${{ inputs.project_name }}  -c Release -o ./publish/${{ inputs.zip_file_name }}
+
+    - name: Publish Lambda package to GitHub artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ inputs.artifact_name }}
+        path: publish/${{ inputs.zip_file_name }}
