@@ -7,6 +7,10 @@ on:
               description: The name of the artifact to download.
               required: true
               type: string
+            zip_file_name:
+              description: 'Name for the zip file'
+              required: true
+              type: string
             s3_bucket_name:
               description: The name of the S3 bucket to upload the file to.
               required: true
@@ -34,3 +38,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ inputs.artifact_name }}
+
+      - name: Unzip artifact
+        run: unzip ${{ inputs.artifact_name }}
