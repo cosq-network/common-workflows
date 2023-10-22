@@ -7,20 +7,12 @@ on:
         description: The name of the Lambda function.
         required: true
         type: string
-      lambda_role_arn:
-        description: The ARN of the Lambda role.
-        required: true
-        type: string
       runtime:
         description: The runtime of the Lambda function.
         required: true
         type: string
       handler:
         description: The handler of the Lambda function.
-        required: true
-        type: string
-      security_group_id:
-        description: The ID of the security group.
         required: true
         type: string
       artifact_name:
@@ -60,6 +52,12 @@ on:
         required: true
       AWS_REGION:
         required: true
+      SECURITY_GROUP_ID:
+        description: The ID of the security group.
+        required: true
+      LAMBDA_ROLE_ARN:
+        description: The ARN of the Lambda role.
+        required: true
 
 jobs:
   deploy-lambda:
@@ -94,8 +92,8 @@ jobs:
               "FunctionName": "${{ inputs.lambda_name }}",
               "Runtime": "${{ inputs.runtime }}",
               "Handler": "${{ inputs.handler }}",
-              "SecurityGroupId": "${{ inputs.security_group_id }}",
-              "LambdaExecutionRoleArn": "${{ inputs.lambda_role_arn }}"
+              "SecurityGroupId": "${{ secrets.SECURITY_GROUP_ID }}",
+              "LambdaExecutionRoleArn": "${{ secrets.LAMBDA_ROLE_ARN }}"
             }
 
 
