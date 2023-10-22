@@ -15,6 +15,11 @@ on:
         description: 'Name for the GitHub artifact'
         required: true
         type: string
+      env_name:
+        description: 'Name of the environment'
+        required: false
+        type: string
+        default: 'prod'
 
 jobs:
   build-and-package:
@@ -23,6 +28,13 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+
+    - name: Setting Environment
+      uses: cosq-network/branch-env@v0.0.1
+      with:
+        branch-names: main,dev,qa
+        variable-values: prod,dev,qa
+        env-variable-name: Environment
 
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
@@ -41,5 +53,5 @@ jobs:
     - name: Publish Lambda package to GitHub artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ inputs.artifact_name }}
+        name: ${{ inputs.artifact_name }}-${{ env.Environment }}
         path: publish/${{ inputs.zip_file_name }}
