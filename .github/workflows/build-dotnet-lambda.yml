@@ -20,6 +20,15 @@ on:
         required: false
         type: string
         default: 'prod'
+      stack_name:
+        description: 'Name of the stack'
+        required: true
+        type: string
+      template_file:
+        description: 'Path of the template file'
+        required: false
+        type: string
+        default: '.aws/templates/lambda.yml'
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
