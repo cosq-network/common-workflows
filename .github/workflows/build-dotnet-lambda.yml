@@ -46,5 +46,5 @@ jobs:
     - name: Publish Lambda package to GitHub artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ inputs.artifact_name }}-${{ env.Environment }}
+        name: ${{ inputs.artifact_name }}-${{ inputs.env_name }}
         path: publish/${{ inputs.zip_file_name }}
