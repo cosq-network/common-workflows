@@ -1,37 +1,65 @@
 name: Upload artifact to S3 bucket
 
 on:
-    workflow_call:
-        inputs:
-          artifact_name:
-            description: The name of the artifact to download.
-            required: true
-            type: string
-          zip_file_name:
-            description: 'Name for the zip file'
-            required: true
-            type: string
-          s3_bucket_name:
-            description: The name of the S3 bucket to upload the file to.
-            required: true
-            type: string
-          s3_prefix_key:
-            description: The S3 prefix key to upload the file to.
-            required: false
-            type: string
-          env_name:
-            description: 'Name of the environment'
-            required: false
-            type: string
-            default: 'prod'
-        secrets:
-          AWS_ACCESS_KEY_ID:
-            required: true
-          AWS_SECRET_ACCESS_KEY:
-            required: true
-          AWS_REGION:
-            required: true
-            
+  workflow_call:
+    inputs:
+      lambda_name:
+        description: The name of the Lambda function.
+        required: true
+        type: string
+      lambda_role_arn:
+        description: The ARN of the Lambda role.
+        required: true
+        type: string
+      runtime:
+        description: The runtime of the Lambda function.
+        required: true
+        type: string
+      handler:
+        description: The handler of the Lambda function.
+        required: true
+        type: string
+      security_group_id:
+        description: The ID of the security group.
+        required: true
+        type: string
+      artifact_name:
+        description: The name of the artifact to download.
+        required: true
+        type: string
+      zip_file_name:
+        description: 'Name for the zip file'
+        required: true
+        type: string
+      s3_bucket_name:
+        description: The name of the S3 bucket to upload the file to.
+        required: true
+        type: string
+      s3_prefix_key:
+        description: The S3 prefix key to upload the file to.
+        required: false
+        type: string
+      env_name:
+        description: 'Name of the environment'
+        required: false
+        type: string
+        default: 'prod'
+      template:
+        description: 'Filename with path of the template'
+        required: false
+        type: string
+        default: .aws/templates/lambda.yml
+      stack_name:
+        description: 'Name of the stack'
+        required: false
+        type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+      AWS_REGION:
+        required: true
 
 jobs:
   deploy-lambda:
@@ -44,13 +72,6 @@ jobs:
           name: ${{ inputs.artifact_name }}
           path: ${{ github.workspace }}/downloads
 
-      # - name: Display structure of downloaded files
-      #   run: ls -R
-      #   working-directory: ${{ github.workspace }}/downloads
-
-      # - name: Unzip artifact
-      #   run: unzip ${{ github.workspace }}/downloads/${{ inputs.zip_file_name }}
-
       - name: Initialize AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -60,4 +81,21 @@ jobs:
 
       - name: Upload to S3 bucket
         run: aws s3 cp ${{ github.workspace }}/downloads/${{ inputs.zip_file_name }} s3://${{ inputs.s3_bucket_name }}/${{ inputs.s3_prefix_key }}/${{ inputs.zip_file_name }}
+
+      - name: Deploy Lambda
+        uses: cosq-network/aws-cloudformation-deploy@v1.2.0
+        with:
+          stackName: ${{ inputs.stack_name }}
+          templateFile: ${{ inputs.template }}
+          parameterJSON: |
+            {
+              "S3Bucket": "${{ inputs.s3_bucket_name }}",
+              "S3Key": ${{ inputs.s3_prefix_key }}/${{ inputs.zip_file_name }}
+              "FunctionName": "${{ inputs.lambda_name }}",
+              "Runtime": "${{ inputs.runtime }}",
+              "Handler": "${{ inputs.handler }}",
+              "SecurityGroupId": "${{ inputs.security_group_id }}",
+              "LambdaExecutionRoleArn": "${{ inputs.lambda_role_arn }}"
+            }
+
 
