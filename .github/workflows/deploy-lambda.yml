@@ -3,31 +3,39 @@ name: Upload artifact to S3 bucket
 on:
     workflow_call:
         inputs:
-            artifact_name:
-              description: The name of the artifact to download.
-              required: true
-              type: string
-            zip_file_name:
-              description: 'Name for the zip file'
-              required: true
-              type: string
-            s3_bucket_name:
-              description: The name of the S3 bucket to upload the file to.
-              required: true
-              type: string
-            s3_prefix_key:
-              description: The S3 prefix key to upload the file to.
-              required: false
-              type: string
-            s3_object_name:
-              description: The S3 object name to upload the file as.
-              required: false
-              type: string
-            env_name:
-              description: 'Name of the environment'
-              required: false
-              type: string
-              default: 'prod'
+          artifact_name:
+            description: The name of the artifact to download.
+            required: true
+            type: string
+          zip_file_name:
+            description: 'Name for the zip file'
+            required: true
+            type: string
+          s3_bucket_name:
+            description: The name of the S3 bucket to upload the file to.
+            required: true
+            type: string
+          s3_prefix_key:
+            description: The S3 prefix key to upload the file to.
+            required: false
+            type: string
+          s3_object_name:
+            description: The S3 object name to upload the file as.
+            required: false
+            type: string
+          env_name:
+            description: 'Name of the environment'
+            required: false
+            type: string
+            default: 'prod'
+        secrets:
+          AWS_ACCESS_KEY_ID:
+            required: true
+          AWS_SECRET_ACCESS_KEY:
+            required: true
+          AWS_REGION:
+            required: true
+            
 
 jobs:
   deploy-lambda:
@@ -40,9 +48,16 @@ jobs:
           name: ${{ inputs.artifact_name }}
           path: ${{ github.workspace }}/downloads
 
-      - name: Display structure of downloaded files
-        run: ls -R
-        working-directory: ${{ github.workspace }}/downloads
+      # - name: Display structure of downloaded files
+      #   run: ls -R
+      #   working-directory: ${{ github.workspace }}/downloads
 
-      - name: Unzip artifact
-        run: unzip ${{ github.workspace }}/downloads/${{ inputs.zip_file_name }}
+      # - name: Unzip artifact
+      #   run: unzip ${{ github.workspace }}/downloads/${{ inputs.zip_file_name }}
+
+      - name: Initialize AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
