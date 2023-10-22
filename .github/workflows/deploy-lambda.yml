@@ -39,6 +39,11 @@ on:
         required: false
         type: string
         default: 'master'
+      variables:
+        description: 'Value to set to environmen variables of the Lambda'
+        required: false
+        type: string
+        default: ''
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -89,4 +94,9 @@ jobs:
               "LambdaExecutionRoleArn": "${{ secrets.LAMBDA_ROLE_ARN }}"
             }
 
-
+      - name: Configure lambda environmenr variables
+        if: ${{ inputs.variables }}
+        run: |
+          aws lambda update-function-configuration \
+          --function-name ${{ inputs.lambda_name }} \
+          --environment "Variables=${{ inputs.variables }}"
