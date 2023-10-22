@@ -53,5 +53,5 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ inputs.artifact_name }}-${{ inputs.env_name }}
+        name: ${{ inputs.artifact_name }}
         path: ${{ inputs.zip_file_name }}

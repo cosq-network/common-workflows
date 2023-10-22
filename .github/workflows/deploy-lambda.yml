@@ -20,18 +20,17 @@ on:
               required: false
               type: string
             env_name:
-                description: 'Name of the environment'
-                required: false
-                type: string
-                default: 'prod'
+              description: 'Name of the environment'
+              required: false
+              type: string
+              default: 'prod'
 
 jobs:
   deploy-lambda:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
-          name: ${{ inputs.artifact_name }}-${{ inputs.env_name }}
+          name: ${{ inputs.artifact_name }}
