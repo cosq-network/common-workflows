@@ -24,10 +24,6 @@ on:
         description: The name of the S3 bucket to upload the file to.
         required: true
         type: string
-      s3_prefix_key:
-        description: The S3 prefix key to upload the file to.
-        required: false
-        type: string
       env_name:
         description: 'Name of the environment'
         required: false
@@ -63,7 +59,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload to S3 bucket
-        run: aws s3 cp ${{ github.workspace }}/downloads/${{ inputs.lambda_name }}-${{ inputs.env_name }}.zip s3://${{ inputs.s3_bucket_name }}/${{ inputs.s3_prefix_key }}/${{ inputs.lambda_name }}-${{ inputs.env_name }}.zip
+        run: aws s3 cp ${{ github.workspace }}/downloads/${{ inputs.lambda_name }}-${{ inputs.env_name }}.zip s3://${{ inputs.s3_bucket_name }}/${{ github.repository }}/${{ inputs.env_name }}/${{ inputs.lambda_name }}-${{ inputs.env_name }}.zip
 
       - name: Deploy Lambda
         uses: cosq-network/aws-cloudformation-deploy@v1.2.0
@@ -73,7 +69,7 @@ jobs:
           parameterJSON: |
             {
               "S3Bucket": "${{ inputs.s3_bucket_name }}",
-              "S3Key": "${{ inputs.s3_prefix_key }}/${{ inputs.lambda_name }}-${{ inputs.env_name }}.zip",
+              "S3Key": "${{ github.repository }}/${{ inputs.env_name }}/${{ inputs.lambda_name }}-${{ inputs.env_name }}.zip",
               "FunctionName": "${{ inputs.lambda_name }}",
               "Runtime": "${{ inputs.runtime }}",
               "Handler": "${{ inputs.handler }}",
