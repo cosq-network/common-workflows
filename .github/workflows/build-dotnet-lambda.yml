@@ -43,13 +43,6 @@ jobs:
     - name: Build Lambda project
       run: dotnet lambda package --project-location ./${{ inputs.project_name }}  -c Release -o ./publish/${{ inputs.zip_file_name }}
 
-    - name: Initialize AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
