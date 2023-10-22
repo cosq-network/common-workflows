@@ -47,4 +47,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: ${{ inputs.artifact_name }}
-        path: ${{ inputs.zip_file_name }}
+        path: ./publish/${{ inputs.zip_file_name }}
