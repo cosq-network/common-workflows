@@ -3,16 +3,12 @@ name: Build and Package .NET Core Lambda
 on:
   workflow_call:
     inputs:
-      project_name:
+      lambda_name:
+        description: The name of the Lambda function.
+        required: true
+        type: string
+      project_dir:
         description: 'Name of the .NET Core Lambda project'
-        required: true
-        type: string
-      zip_file_name:
-        description: 'Name for the zip file'
-        required: true
-        type: string
-      artifact_name:
-        description: 'Name for the GitHub artifact'
         required: true
         type: string
       env_name:
@@ -41,10 +37,10 @@ jobs:
       run: dotnet restore
 
     - name: Build Lambda project
-      run: dotnet lambda package --project-location ./${{ inputs.project_name }}  -c Release -o ./publish/${{ inputs.zip_file_name }}
+      run: dotnet lambda package --project-location ./${{ inputs.project_dir }}  -c Release -o ./publish/${{ inputs.lambda_name }}-${{ inputs.env_name }}
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ inputs.artifact_name }}
-        path: ./publish/${{ inputs.zip_file_name }}
+        name: ${{ inputs.lambda_name }}-${{ inputs.env_name }}
+        path: ./publish/${{ inputs.lambda_name }}-${{ inputs.env_name }}.zip
