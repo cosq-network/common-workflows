@@ -88,7 +88,7 @@ jobs:
           parameterJSON: |
             {
               "S3Bucket": "${{ inputs.s3_bucket_name }}",
-              "S3Key": ${{ inputs.s3_prefix_key }}/${{ inputs.zip_file_name }},
+              "S3Key": "${{ inputs.s3_prefix_key }}/${{ inputs.zip_file_name }}",
               "FunctionName": "${{ inputs.lambda_name }}",
               "Runtime": "${{ inputs.runtime }}",
               "Handler": "${{ inputs.handler }}",
