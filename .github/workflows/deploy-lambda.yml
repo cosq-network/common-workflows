@@ -77,7 +77,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload to S3 bucket
-        run: aws s3 cp ${{ github.workspace }}/downloads/${{ inputs.lambda_name }}-${{ inputs.env_name }}.zip s3://${{ inputs.s3_bucket_name }}/${{ github.repository }}/${{ inputs.env_name }}/${{ inputs.lambda_name }}-${{ inputs.env_name }}.zip
+        run: aws s3 cp ${{ github.workspace }}/downloads/${{ inputs.lambda_name }}-${{ inputs.env_name }}.zip s3://${{ inputs.s3_bucket_name }}/${{ github.repository }}/${{ inputs.env_name }}/${{github.sha}}/${{ inputs.lambda_name }}-${{ inputs.env_name }}.zip
 
       - name: Deploy Lambda
         uses: cosq-network/aws-cloudformation-deploy@v1.2.0
@@ -87,7 +87,7 @@ jobs:
           parameterJSON: |
             {
               "S3Bucket": "${{ inputs.s3_bucket_name }}",
-              "S3Key": "${{ github.repository }}/${{ inputs.env_name }}/${{ inputs.lambda_name }}-${{ inputs.env_name }}.zip",
+              "S3Key": "${{ github.repository }}/${{ inputs.env_name }}/${{github.sha}}/${{ inputs.lambda_name }}-${{ inputs.env_name }}.zip",
               "FunctionName": "${{ inputs.lambda_name }}",
               "Runtime": "${{ inputs.runtime }}",
               "Handler": "${{ inputs.handler }}",
