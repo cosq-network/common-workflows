@@ -44,6 +44,14 @@ on:
         required: false
         type: string
         default: ''
+      security_group_ids:
+        description: 'List of security group ids as comma separated string'
+        required: true
+        type: string
+      subnet_ids:
+        description: 'List of subnet ids as comma separated string'
+        required: true
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
