@@ -101,7 +101,7 @@ jobs:
               "FunctionName": "${{ inputs.lambda_name }}",
               "Runtime": "${{ inputs.runtime }}",
               "Handler": "${{ inputs.handler }}",
-              "LambdaExecutionRoleArn": "${{ secrets.LAMBDA_ROLE_ARN }}",
+              "LambdaExecutionRoleArn": "${{ inputs.LAMBDA_ROLE_ARN }}",
               "SecurityGroupIds": "${{ inputs.security_group_ids }}",
               "SubnetIds": "${{ inputs.subnet_ids }}"
             }
