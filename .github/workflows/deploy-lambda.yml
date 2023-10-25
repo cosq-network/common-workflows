@@ -84,7 +84,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ vars.AWS_REGION }}
+          aws-region: ${{ inputs.AWS_REGION }}
 
       - name: Upload to S3 bucket
         run: aws s3 cp ${{ github.workspace }}/downloads/${{ inputs.lambda_name }}-${{ inputs.env_name }}.zip s3://${{ inputs.s3_bucket_name }}/${{ github.repository }}/${{ inputs.env_name }}/${{github.sha}}/${{ inputs.lambda_name }}-${{ inputs.env_name }}.zip
