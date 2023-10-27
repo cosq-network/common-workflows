@@ -73,6 +73,7 @@ jobs:
         with:
           repository: ${{ inputs.template_repo }}
           ref: ${{ inputs.template_repo_ref }}
+
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:

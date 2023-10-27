@@ -27,6 +27,21 @@ on:
           description: The AWS region.
           required: true
           type: string
+        env_name:
+          description: 'Name of the environment'
+          required: false
+          type: string
+          default: 'prod'
+        template_repo:
+          description: 'Name of the common template repository for cloud formation files'
+          required: false
+          type: string
+          default: 'cosq-network/common-aws-infrastructure'
+        template_repo_ref:
+          description: 'Name of the common template repository for cloud formation files'
+          required: false
+          type: string
+          default: 'master'
       secrets:
         AWS_ACCESS_KEY_ID:
           required: true
@@ -36,8 +51,10 @@ jobs:
   upload-to-s3:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.template_repo }}
+          ref: ${{ inputs.template_repo_ref }}
 
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
@@ -49,11 +66,10 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v2
         with:
-          name: ${{ inputs.artifact_name }}
+          name: ${{ inputs.artifact_name }}-${{ inputs.env_name }}
 
       - name: Upload Archive to S3
         run: |
           aws s3 cp ${{ inputs.archive }} s3://${{ inputs.S3Bucket }}/${{ inputs.S3Key }}
-        env:
-          S3Key: ${{ inputs.S3Key }}
+
 
