@@ -49,7 +49,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v2
         with:
-          name: ${{ inputs.archive }}
+          name: ${{ inputs.artifact_name }}
 
       - name: Upload Archive to S3
         run: |
