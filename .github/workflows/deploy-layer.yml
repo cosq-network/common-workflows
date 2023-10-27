@@ -1,0 +1,46 @@
+name: Upload Layer Archive to S3
+
+on:
+    workflow_call:
+      inputs:
+        arhive:
+          description: The file path of the layer archive
+          required: true
+          type: string
+        layer_name:
+          description: The name of the layer
+          required: true
+          type: string
+        S3Key:
+          description: The name of the S3 bucket to upload the file to.
+          required: true
+          type: string
+        S3Bucket:
+          description: The name of the S3 bucket to upload the file to.
+          required: true
+          type: string
+      secrets:
+        AWS_ACCESS_KEY_ID:
+          required: true
+        AWS_SECRET_ACCESS_KEY:
+          required: true
+jobs:
+  upload-to-s3:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Upload CloudFormation Template to S3
+        run: |
+          aws s3 cp  s3://${{ inputs.S3Bucket }}/${{ inputs.S3Key }}
+        env:
+          S3Key: ${{ inputs.S3Key }}
