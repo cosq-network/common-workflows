@@ -42,7 +42,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ inputs.AWS_DEFAULT_REGION }}
 
-      - name: Upload CloudFormation Template to S3
+      - name: Upload Archive to S3
         run: |
           aws s3 cp ${{ inputs.archive }} s3://${{ inputs.S3Bucket }}/${{ inputs.S3Key }}
         env:
