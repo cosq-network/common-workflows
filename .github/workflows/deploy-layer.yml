@@ -3,6 +3,10 @@ name: Upload Layer Archive to S3
 on:
     workflow_call:
       inputs:
+        artifact_name:
+          description: The name of the artifact
+          required: true
+          type: string
         archive:
           description: The file path of the layer archive
           required: true
