@@ -42,17 +42,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ inputs.AWS_DEFAULT_REGION }}
 
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ inputs.archive }}
+
       - name: Upload Archive to S3
         run: |
           aws s3 cp ${{ inputs.archive }} s3://${{ inputs.S3Bucket }}/${{ inputs.S3Key }}
         env:
           S3Key: ${{ inputs.S3Key }}
 
-  deploy-layer:
-    runs-on: ubuntu-latest
-    needs: upload-to-s3
-    steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: ${{ inputs.archive }}
