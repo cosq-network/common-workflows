@@ -156,7 +156,7 @@ jobs:
     needs: deploy
     steps:
       - name: Output Lambda ARN
-        run: echo ${{ needs.deploy.outputs }}
+        run: echo ${{ toJSON(needs.deploy.outputs) }}
 
   integrate-to-api-gateway:
     needs: deploy
