@@ -8,7 +8,7 @@ on:
           required: true
           type: string
         archive:
-          description: The file path of the layer archive
+          description: The file path of the layer zip file
           required: true
           type: string
         layer_name:
@@ -42,6 +42,16 @@ on:
           required: false
           type: string
           default: 'master'
+        template:
+          description: 'Filename with path of the template'
+          required: false
+          type: string
+          default: .aws/templates/layer.yml
+        runtime:
+          description: The runtime of the Layer
+          required: false
+          type: string
+          default: 'python3.10'
       secrets:
         AWS_ACCESS_KEY_ID:
           required: true
@@ -72,4 +82,15 @@ jobs:
         run: |
           aws s3 cp ${{ inputs.archive }} s3://${{ inputs.S3Bucket }}/${{ inputs.S3Key }}
 
-
+      - name: Deploy Layer
+        uses: cosq-network/aws-cloudformation-deploy@v1.2.0
+        with:
+          stackName: ${{ inputs.layer_name }}-${{ inputs.env_name }}
+          templateFile: ${{ inputs.template }}
+          parameterJSON: |
+            {
+              "S3Bucket": "${{ inputs.S3Bucket }}",
+              "S3Key": "${{ github.repository }}/${{ inputs.env_name }}/${{github.sha}}/${{ inputs.layer_name }}-${{ inputs.env_name }}.zip",
+              "LayerName": "${{ inputs.layer_name }}",
+              "Runtime": "${{ inputs.runtime }}",
+            }
