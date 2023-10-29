@@ -53,7 +53,7 @@ on:
         required: true
 
 jobs:
-  integrate-lambda:
+  integrate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
