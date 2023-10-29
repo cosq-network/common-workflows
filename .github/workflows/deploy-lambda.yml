@@ -148,6 +148,7 @@ jobs:
           --environment "Variables={${{ inputs.variables }}}"
 
   integrate-to-api-gateway:
+    needs: deploy-lambda
     if: ${{ inputs.api_id && inputs.root_resource_id && inputs.http_method && inputs.resource_name }}
     uses: ./.github/workflows/integrate-lambda.yml
     with:
