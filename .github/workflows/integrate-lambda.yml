@@ -1,0 +1,84 @@
+name: Upload artifact to S3 bucket
+
+on:
+  workflow_call:
+    inputs:
+      api_id:
+        description: The API ID.
+        required: true
+        type: string
+      root_resource_id:
+        description: The root resource ID.
+        required: true
+        type: string
+      lambda_arn:
+        description: The Lambda ARN.
+        required: true
+        type: string
+      resource_name:
+        description: The resource name.
+        required: true
+        type: string
+      http_method:
+        description: The HTTP method.
+        required: true
+        type: string
+      env_name:
+        description: 'Name of the environment'
+        required: false
+        type: string
+        default: 'prod'
+      template_repo:
+        description: 'Name of the common template repository for cloud formation files'
+        required: false
+        type: string
+        default: 'cosq-network/common-aws-infrastructure'
+      template_repo_ref:
+        description: 'Name of the common template repository for cloud formation files'
+        required: false
+        type: string
+        default: 'master'
+      template:
+        description: 'Filename with path of the template'
+        required: false
+        type: string
+        default: .aws/templates/lambda-api-integration.yml
+      AWS_REGION:
+        required: true
+        type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+
+jobs:
+  deploy-lambda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.template_repo }}
+          ref: ${{ inputs.template_repo_ref }}
+
+      - name: Initialize AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.AWS_REGION }}
+
+      - name: Deploy Lambda
+        uses: cosq-network/aws-cloudformation-deploy@v1.2.0
+        with:
+          stackName: ${{ inputs.resource_name }}-${{ inputs.env_name }}-api-integration
+          templateFile: ${{ inputs.template }}
+          parameterJSON: |
+            {
+              "RestApiId": "${{ inputs.api_id }}",
+              "RootResourceId": "${{ inputs.root_resource_id }}",
+              "LambdaFunctionArn": "${{ inputs.lambda_arn }}",
+              "ResourceName": "${{ inputs.resource_name }}",
+              "HTTPMethod": "${{ inputs.http_method }}",
+              "StageName": "${{ inputs.env_name }}"
+            }
