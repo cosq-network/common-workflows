@@ -80,7 +80,7 @@ jobs:
 
       - name: Upload Archive to S3
         run: |
-          aws s3 cp ${{ inputs.archive }} s3://${{ inputs.S3Bucket }}/${{ inputs.S3Key }}
+          aws s3 cp ${{ inputs.archive }} s3://${{ github.repository }}/${{ inputs.env_name }}/${{github.sha}}/${{ inputs.S3Key }}
 
       - name: Deploy Layer
         uses: cosq-network/aws-cloudformation-deploy@v1.2.0
@@ -90,7 +90,7 @@ jobs:
           parameterJSON: |
             {
               "S3Bucket": "${{ inputs.S3Bucket }}",
-              "S3Key": "${{ github.repository }}/${{ inputs.env_name }}/${{github.sha}}/${{ inputs.layer_name }}-${{ inputs.env_name }}.zip",
+              "S3Key": "${{ github.repository }}/${{ inputs.env_name }}/${{github.sha}}/${{ inputs.S3Key }}",
               "COSQLayerName": "${{ inputs.layer_name }}",
               "Runtime": "${{ inputs.runtime }}"
             }
