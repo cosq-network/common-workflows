@@ -141,6 +141,7 @@ jobs:
             }
 
       - id: deployed
+        name: Setting Lambda ARN as output
         run: echo "LambdaARN=${{ env.LambdaArn }}" >> $GITHUB_OUTPUT
 
       - name: Configure lambda environmenr variables
@@ -157,6 +158,7 @@ jobs:
     with:
       api_id: ${{ inputs.api_id }}
       root_resource_id: ${{ inputs.root_resource_id }}
+      lambda_arn: ${{ needs.deploy-lambda.outputs.LambdaARN }}
       resource_name: ${{ inputs.resource_name }}
       http_method: ${{ inputs.http_method }}
       env_name: ${{ inputs.env_name }}
