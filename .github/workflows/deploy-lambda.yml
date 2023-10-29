@@ -151,6 +151,13 @@ jobs:
           --function-name ${{ inputs.lambda_name }} \
           --environment "Variables={${{ inputs.variables }}}"
 
+  test-output:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - name: Output Lambda ARN
+        run: echo ${{ needs.deploy.outputs.LambdaARN }}
+
   integrate-to-api-gateway:
     needs: deploy
     if: ${{ inputs.api_id && inputs.root_resource_id && inputs.http_method && inputs.resource_name }}
