@@ -15,15 +15,32 @@ on:
         description: The handler of the Lambda function.
         required: true
         type: string
-      template:
-        description: 'Filename with path of the template'
-        required: false
-        type: string
-        default: .aws/templates/lambda.yml
       s3_bucket_name:
         description: The name of the S3 bucket to upload the file to.
         required: true
         type: string
+
+      api_id:
+        description: The API ID.
+        required: false
+        type: string
+      root_resource_id:
+        description: The root resource ID.
+        required: false
+        type: string
+      lambda_arn:
+        description: The Lambda ARN.
+        required: false
+        type: string
+      resource_name:
+        description: The resource name.
+        required: false
+        type: string
+      http_method:
+        description: The HTTP method.
+        required: false
+        type: string
+
       env_name:
         description: 'Name of the environment'
         required: false
@@ -39,6 +56,16 @@ on:
         required: false
         type: string
         default: 'master'
+      template:
+        description: 'Filename with path of the template'
+        required: false
+        type: string
+        default: .aws/templates/lambda.yml
+      integration-template:
+        description: 'Filename with path of the integration template'
+        required: false
+        type: string
+        default: .aws/templates/lambda-api-integration.yml
       variables:
         description: 'Value to set to environmen variables of the Lambda'
         required: false
@@ -119,3 +146,20 @@ jobs:
           aws lambda update-function-configuration \
           --function-name ${{ inputs.lambda_name }} \
           --environment "Variables={${{ inputs.variables }}}"
+
+  integrate-to-api-gateway:
+    if: ${{ inputs.api_id && inputs.root_resource_id && inputs.http_method && inputs.resource_name }}
+    uses: ./.github/workflows/integrate-lambda.yml
+    with:
+      api_id: ${{ inputs.api_id }}
+      root_resource_id: ${{ inputs.root_resource_id }}
+      resource_name: ${{ inputs.resource_name }}
+      http_method: ${{ inputs.http_method }}
+      env_name: ${{ inputs.env_name }}
+      template_repo: ${{ inputs.template_repo }}
+      template_repo_ref: ${{ inputs.template_repo_ref }}
+      template: ${{ inputs.integration-template }}
+      AWS_REGION: ${{ inputs.AWS_REGION }}
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
