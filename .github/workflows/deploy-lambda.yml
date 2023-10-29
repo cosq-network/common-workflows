@@ -140,6 +140,9 @@ jobs:
               "Layers": "${{ inputs.layers }}"
             }
 
+      - id: deployed
+        run: echo "LambdaARN=${{ env.LambdaArn }}" >> $GITHUB_OUTPUT
+
       - name: Configure lambda environmenr variables
         if: ${{ inputs.variables }}
         run: |
