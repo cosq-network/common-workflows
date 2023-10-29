@@ -98,7 +98,7 @@ on:
         required: true
 
 jobs:
-  deploy-lambda:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -152,13 +152,13 @@ jobs:
           --environment "Variables={${{ inputs.variables }}}"
 
   integrate-to-api-gateway:
-    needs: deploy-lambda
+    needs: deploy
     if: ${{ inputs.api_id && inputs.root_resource_id && inputs.http_method && inputs.resource_name }}
     uses: ./.github/workflows/integrate-lambda.yml
     with:
       api_id: ${{ inputs.api_id }}
       root_resource_id: ${{ inputs.root_resource_id }}
-      lambda_arn: ${{ needs.deploy-lambda.outputs.LambdaARN }}
+      lambda_arn: ${{ needs.deploy.outputs.LambdaARN }}
       resource_name: ${{ inputs.resource_name }}
       http_method: ${{ inputs.http_method }}
       env_name: ${{ inputs.env_name }}
