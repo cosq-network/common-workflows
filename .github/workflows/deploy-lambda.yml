@@ -110,7 +110,7 @@ jobs:
               "LambdaExecutionRoleArn": "${{ inputs.LAMBDA_ROLE_ARN }}",
               "SecurityGroupIds": "${{ inputs.security_group_ids }}",
               "SubnetIds": "${{ inputs.subnet_ids }}",
-              "Layers", "${{ inputs.layers }}"
+              "Layers": "${{ inputs.layers }}"
             }
 
       - name: Configure lambda environmenr variables
