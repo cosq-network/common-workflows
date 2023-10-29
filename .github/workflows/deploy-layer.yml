@@ -91,6 +91,6 @@ jobs:
             {
               "S3Bucket": "${{ inputs.S3Bucket }}",
               "S3Key": "${{ github.repository }}/${{ inputs.env_name }}/${{github.sha}}/${{ inputs.layer_name }}-${{ inputs.env_name }}.zip",
-              "LayerName": "${{ inputs.layer_name }}",
+              "COSQLayerName": "${{ inputs.layer_name }}",
               "Runtime": "${{ inputs.runtime }}",
             }
