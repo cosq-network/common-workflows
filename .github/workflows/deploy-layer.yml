@@ -58,7 +58,7 @@ on:
         AWS_SECRET_ACCESS_KEY:
           required: true
 jobs:
-  upload-to-s3:
+  deploy-layer:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
