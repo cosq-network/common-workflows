@@ -13,7 +13,7 @@ on:
         type: string
       lambda_arn:
         description: The Lambda ARN.
-        required: false
+        required: true
         type: string
       resource_name:
         description: The resource name.
