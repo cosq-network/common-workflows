@@ -91,6 +91,11 @@ on:
         required: true
         type: string
         default: ''
+      AWS_ACCOUNT_ID:
+        required: true
+        type: string
+        description: The AWS account ID
+      
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -140,25 +145,12 @@ jobs:
               "Layers": "${{ inputs.layers }}"
             }
 
-      - id: deployed
-        name: Setting Lambda ARN as output
-        run: echo "LambdaARN=${{ env.LambdaArn }}" >> $GITHUB_OUTPUT
-
       - name: Configure lambda environmenr variables
         if: ${{ inputs.variables }}
         run: |
           aws lambda update-function-configuration \
           --function-name ${{ inputs.lambda_name }} \
           --environment "Variables={${{ inputs.variables }}}"
-    outputs:
-      LambdaARN: ${{ steps.deployed.outputs.LambdaARN }}
-
-  test-output:
-    runs-on: ubuntu-latest
-    needs: deploy
-    steps:
-      - name: Output Lambda ARN
-        run: echo ${{ toJSON(needs.deploy.outputs) }}
 
   integrate-to-api-gateway:
     needs: deploy
@@ -167,7 +159,7 @@ jobs:
     with:
       api_id: ${{ inputs.api_id }}
       root_resource_id: ${{ inputs.root_resource_id }}
-      lambda_arn: ${{ needs.deploy.outputs.LambdaARN }}
+      lambda_arn: arn:aws:lambda:${{ inputs.AWS_REGION }}:${{ inputs.AWS_ACCOUNT_ID }}:function:${{ inputs.lambda_name }}
       resource_name: ${{ inputs.resource_name }}
       http_method: ${{ inputs.http_method }}
       env_name: ${{ inputs.env_name }}
