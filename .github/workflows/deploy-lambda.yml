@@ -160,6 +160,7 @@ jobs:
       api_id: ${{ inputs.api_id }}
       root_resource_id: ${{ inputs.root_resource_id }}
       lambda_arn: arn:aws:lambda:${{ inputs.AWS_REGION }}:${{ inputs.AWS_ACCOUNT_ID }}:function:${{ inputs.lambda_name }}
+      lambda_uri: arn:aws:apigateway:${{ inputs.AWS_REGION }}:lambda:path/2015-03-31/functions/arn:aws:lambda:${{ inputs.AWS_REGION }}:${{ inputs.AWS_ACCOUNT_ID }}:function:${{ inputs.lambda_name }}/invocations
       resource_name: ${{ inputs.resource_name }}
       http_method: ${{ inputs.http_method }}
       env_name: ${{ inputs.env_name }}
