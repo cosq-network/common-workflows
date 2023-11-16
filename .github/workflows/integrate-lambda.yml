@@ -3,6 +3,10 @@ name: Upload artifact to S3 bucket
 on:
   workflow_call:
     inputs:
+      lambda_name:
+        description: The name of the Lambda function.
+        required: true
+        type: string
       api_id:
         description: The API ID.
         required: true
@@ -72,6 +76,7 @@ jobs:
           templateFile: ${{ inputs.template }}
           parameterJSON: |
             {
+              "LambdaFunctionName": "${{ inputs.lambda_name }}",
               "RestApiId": "${{ inputs.api_id }}",
               "RootResourceId": "${{ inputs.root_resource_id }}",
               "ResourceName": "${{ inputs.resource_name }}",
