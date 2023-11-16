@@ -19,17 +19,12 @@ on:
         description: The name of the S3 bucket to upload the file to.
         required: true
         type: string
-
       api_id:
         description: The API ID.
         required: false
         type: string
       root_resource_id:
         description: The root resource ID.
-        required: false
-        type: string
-      lambda_arn:
-        description: The Lambda ARN.
         required: false
         type: string
       resource_name:
@@ -40,7 +35,6 @@ on:
         description: The HTTP method.
         required: false
         type: string
-
       env_name:
         description: 'Name of the environment'
         required: false
@@ -79,9 +73,6 @@ on:
         description: 'List of subnet ids as comma separated string'
         required: true
         type: string
-      AWS_REGION:
-        required: true
-        type: string
       LAMBDA_ROLE_ARN:
         description: The ARN of the Lambda role.
         required: true
@@ -91,10 +82,6 @@ on:
         required: true
         type: string
         default: ''
-      AWS_ACCOUNT_ID:
-        required: true
-        type: string
-        description: The AWS account ID
       
     secrets:
       AWS_ACCESS_KEY_ID:
@@ -159,8 +146,6 @@ jobs:
     with:
       api_id: ${{ inputs.api_id }}
       root_resource_id: ${{ inputs.root_resource_id }}
-      lambda_arn: arn:aws:lambda:${{ inputs.AWS_REGION }}:${{ inputs.AWS_ACCOUNT_ID }}:function:${{ inputs.lambda_name }}
-      lambda_uri: arn:aws:apigateway:${{ inputs.AWS_REGION }}:lambda:path/2015-03-31/functions/arn:aws:lambda:${{ inputs.AWS_REGION }}:${{ inputs.AWS_ACCOUNT_ID }}:function:${{ inputs.lambda_name }}/invocations
       resource_name: ${{ inputs.resource_name }}
       http_method: ${{ inputs.http_method }}
       env_name: ${{ inputs.env_name }}

@@ -11,14 +11,6 @@ on:
         description: The root resource ID.
         required: true
         type: string
-      lambda_arn:
-        description: The Lambda ARN.
-        required: true
-        type: string
-      lambda_uri:
-        description: The Lambda URI.
-        required: true
-        type: string
       resource_name:
         description: The resource name.
         required: true
@@ -81,8 +73,6 @@ jobs:
             {
               "RestApiId": "${{ inputs.api_id }}",
               "RootResourceId": "${{ inputs.root_resource_id }}",
-              "LambdaFunctionArn": "${{ inputs.lambda_arn }}",
-              "LambdaFunctionUri": "${{ inputs.lambda_uri }}",
               "ResourceName": "${{ inputs.resource_name }}",
               "HTTPMethod": "${{ inputs.http_method }}",
               "StageName": "${{ inputs.env_name }}"
