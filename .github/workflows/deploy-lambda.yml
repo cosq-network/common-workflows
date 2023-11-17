@@ -79,7 +79,7 @@ on:
         type: string
       layers:
         description: 'List of layers as comma separated string'
-        required: true
+        required: false
         type: string
         default: ''
       AWS_REGION:
