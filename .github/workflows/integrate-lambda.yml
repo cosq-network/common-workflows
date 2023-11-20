@@ -47,6 +47,10 @@ on:
         description: The AWS region.
         required: true
         type: string
+      use_proxy:
+        description: 'Use proxy'
+        required: false
+        type: string
     secrets:
       AWS_ACCESS_KEY_ID:
         required: true
@@ -81,5 +85,6 @@ jobs:
               "RootResourceId": "${{ inputs.root_resource_id }}",
               "ResourceName": "${{ inputs.resource_name }}",
               "HTTPMethod": "${{ inputs.http_method }}",
-              "StageName": "${{ inputs.env_name }}"
+              "StageName": "${{ inputs.env_name }}",
+              "UseProxy": "${{ inputs.use_proxy }}"
             }
