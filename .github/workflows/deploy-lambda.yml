@@ -77,11 +77,18 @@ on:
         description: The ARN of the Lambda role.
         required: true
         type: string
-      layers:
-        description: 'List of layers as comma separated string'
+      primary_layer:
+        description: 'Primary layer'
         required: false
         type: string
-        default: ''
+      secondary_layer:
+        description: 'Secondary layer'
+        required: false
+        type: string
+      tertiary_layer:
+        description: 'Tertiary layer'
+        required: false
+        type: string
       AWS_REGION:
         description: The AWS region.
         required: true
@@ -137,7 +144,9 @@ jobs:
               "LambdaExecutionRoleArn": "${{ inputs.LAMBDA_ROLE_ARN }}",
               "SecurityGroupIds": "${{ inputs.security_group_ids }}",
               "SubnetIds": "${{ inputs.subnet_ids }}",
-              "Layers": "${{ inputs.layers }}"
+              "PrimaryLayer": "${{ inputs.primary_layer }}",
+              "SecondaryLayer": "${{ inputs.secondary_layer }}",
+              "TertiaryLayer": "${{ inputs.tertiary_layer }}",
             }
 
       - name: Configure lambda environmenr variables
