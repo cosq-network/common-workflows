@@ -146,7 +146,7 @@ jobs:
               "SubnetIds": "${{ inputs.subnet_ids }}",
               "PrimaryLayer": "${{ inputs.primary_layer }}",
               "SecondaryLayer": "${{ inputs.secondary_layer }}",
-              "TertiaryLayer": "${{ inputs.tertiary_layer }}",
+              "TertiaryLayer": "${{ inputs.tertiary_layer }}"
             }
 
       - name: Configure lambda environmenr variables
