@@ -23,7 +23,7 @@ on:
         description: The API ID.
         required: false
         type: string
-      root_resource_id:
+      parent_resource_id:
         description: The root resource ID.
         required: false
         type: string
@@ -158,12 +158,12 @@ jobs:
 
   integrate-to-api-gateway:
     needs: deploy
-    if: ${{ inputs.api_id && inputs.root_resource_id && inputs.http_method && inputs.resource_name }}
+    if: ${{ inputs.api_id && inputs.parent_resource_id && inputs.http_method && inputs.resource_name }}
     uses: ./.github/workflows/integrate-lambda.yml
     with:
       lambda_name: ${{ inputs.lambda_name }}
       api_id: ${{ inputs.api_id }}
-      root_resource_id: ${{ inputs.root_resource_id }}
+      parent_resource_id: ${{ inputs.parent_resource_id }}
       resource_name: ${{ inputs.resource_name }}
       http_method: ${{ inputs.http_method }}
       env_name: ${{ inputs.env_name }}
