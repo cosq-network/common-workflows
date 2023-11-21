@@ -11,7 +11,7 @@ on:
         description: The API ID.
         required: true
         type: string
-      root_resource_id:
+      parent_resource_id:
         description: The root resource ID.
         required: true
         type: string
@@ -82,7 +82,7 @@ jobs:
             {
               "LambdaFunctionName": "${{ inputs.lambda_name }}",
               "RestApiId": "${{ inputs.api_id }}",
-              "ParentResourceId": "${{ inputs.root_resource_id }}",
+              "ParentResourceId": "${{ inputs.parent_resource_id }}",
               "ResourceName": "${{ inputs.resource_name }}",
               "HTTPMethod": "${{ inputs.http_method }}",
               "StageName": "${{ inputs.env_name }}",
