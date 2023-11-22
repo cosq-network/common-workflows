@@ -76,7 +76,7 @@ jobs:
       - name: Integrate Lambda
         uses: cosq-network/aws-cloudformation-deploy@v1.2.0
         with:
-          stackName: ${{ inputs.resource_name }}-${{ inputs.env_name }}-api-integration
+          stackName: ${{ inputs.lambda_name }}-${{ inputs.env_name }}-api
           templateFile: ${{ inputs.template }}
           parameterJSON: |
             {

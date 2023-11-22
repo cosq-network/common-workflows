@@ -132,7 +132,7 @@ jobs:
       - name: Deploy Lambda
         uses: cosq-network/aws-cloudformation-deploy@v1.2.0
         with:
-          stackName: ${{ inputs.lambda_name }}-${{ inputs.env_name }}
+          stackName: ${{ inputs.lambda_name }}-${{ inputs.env_name }}-lambda
           templateFile: ${{ inputs.template }}
           parameterJSON: |
             {
