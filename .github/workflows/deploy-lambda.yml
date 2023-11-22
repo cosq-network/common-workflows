@@ -67,11 +67,11 @@ on:
         default: ''
       security_group_ids:
         description: 'List of security group ids as comma separated string'
-        required: true
+        required: false
         type: string
       subnet_ids:
         description: 'List of subnet ids as comma separated string'
-        required: true
+        required: false
         type: string
       LAMBDA_ROLE_ARN:
         description: The ARN of the Lambda role.
