@@ -24,6 +24,10 @@ on:
         description: The HTTP method.
         required: true
         type: string
+      content_handling:
+        description: The content handling.
+        required: false
+        type: string
       env_name:
         description: 'Name of the environment'
         required: false
@@ -82,5 +86,6 @@ jobs:
               "ParentResourceId": "${{ inputs.parent_resource_id }}",
               "LambdaFunctionName": "${{ inputs.lambda_name }}",
               "HTTPMethod": "${{ inputs.http_method }}",
+              "ContentHandling": "${{ inputs.content_handling }}",
               "StageName": "${{ inputs.env_name }}"
             }
