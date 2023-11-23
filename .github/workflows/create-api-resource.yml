@@ -1,12 +1,8 @@
-name: Integrate Lambda
+name: Create a resource on an API
 
 on:
   workflow_call:
     inputs:
-      lambda_name:
-        description: The name of the Lambda function.
-        required: true
-        type: string
       api_id:
         description: The API ID.
         required: true
@@ -17,10 +13,6 @@ on:
         type: string
       resource_name:
         description: The resource name.
-        required: true
-        type: string
-      http_method:
-        description: The HTTP method.
         required: true
         type: string
       env_name:
@@ -46,10 +38,6 @@ on:
       AWS_REGION:
         description: The AWS region.
         required: true
-        type: string
-      use_proxy:
-        description: 'Use proxy'
-        required: false
         type: string
     secrets:
       AWS_ACCESS_KEY_ID:
@@ -80,11 +68,7 @@ jobs:
           templateFile: ${{ inputs.template }}
           parameterJSON: |
             {
-              "LambdaFunctionName": "${{ inputs.lambda_name }}",
               "RestApiId": "${{ inputs.api_id }}",
               "ParentResourceId": "${{ inputs.parent_resource_id }}",
-              "ResourceName": "${{ inputs.resource_name }}",
-              "HTTPMethod": "${{ inputs.http_method }}",
-              "StageName": "${{ inputs.env_name }}",
-              "UseProxy": "${{ inputs.use_proxy }}"
+              "ResourceName": "${{ inputs.resource_name }}"
             }
