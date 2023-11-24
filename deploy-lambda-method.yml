@@ -19,7 +19,7 @@ on:
           required: true
           type: string
 
-        lambda_function_name:
+        lambda_name:
           description: The name of the Lambda function.
           required: true
           type: string
@@ -94,7 +94,7 @@ jobs:
               "RestApiId": "${{ inputs.api_id }}",
               "ResourceName": "${{ inputs.resource_name }}",
               "ResourceIdName": "${{ inputs.resource_id_name }}",
-              "LambdaFunctionName": "${{ inputs.lambda_function_name }}",
+              "LambdaFunctionName": "${{ inputs.lambda_name }}",
               "HttpMethod": "${{ inputs.http_method }}",
               "ContentHandling": "${{ inputs.content_handling }}",
               "StageName": "${{ inputs.env_name }}"
