@@ -69,7 +69,7 @@ on:
         AWS_SECRET_ACCESS_KEY:
           required: true
 jobs:
-  deploy-layer:
+  deploy-method:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
