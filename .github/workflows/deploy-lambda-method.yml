@@ -95,7 +95,7 @@ jobs:
               "ResourceName": "${{ inputs.resource_name }}",
               "ResourceIdName": "${{ inputs.resource_id_name }}",
               "LambdaFunctionName": "${{ inputs.lambda_name }}",
-              "HttpMethod": "${{ inputs.http_method }}",
+              "HTTPMethod": "${{ inputs.http_method }}",
               "ContentHandling": "${{ inputs.content_handling }}",
               "StageName": "${{ inputs.env_name }}"
             }
