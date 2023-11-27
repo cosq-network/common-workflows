@@ -39,6 +39,11 @@ on:
           required: false
           type: string
 
+        proxy_path:
+          description: The proxy path
+          required: false
+          type: string
+
         AWS_DEFAULT_REGION:
           description: The AWS region.
           required: true
@@ -103,5 +108,6 @@ jobs:
               "HTTPMethod": "${{ inputs.http_method }}",
               "ContentHandling": "${{ inputs.content_handling }}",
               "StageName": "${{ inputs.env_name }}",
-              "ProxyResource": "${{ inputs.proxy_resource }}"
+              "ProxyResource": "${{ inputs.proxy_resource }}",
+              "ProxyPath": "${{ inputs.proxy_path }}"
             }
