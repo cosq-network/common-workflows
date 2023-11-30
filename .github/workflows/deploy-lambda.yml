@@ -60,11 +60,6 @@ on:
         required: false
         type: string
         default: .aws/templates/lambda-api-integration.yml
-      variables:
-        description: 'Value to set to environmen variables of the Lambda'
-        required: false
-        type: string
-        default: ''
       security_group_ids:
         description: 'List of security group ids as comma separated string'
         required: false
@@ -103,6 +98,8 @@ on:
         required: true
       AWS_SECRET_ACCESS_KEY:
         required: true
+      ENV_VARS:
+        required: false
 
 jobs:
   deploy:
@@ -150,8 +147,8 @@ jobs:
             }
 
       - name: Configure lambda environmenr variables
-        if: ${{ inputs.variables }}
+        if: ${{ inputs.ENV_VARS }}
         run: |
           aws lambda update-function-configuration \
           --function-name ${{ inputs.lambda_name }} \
-          --environment "Variables={${{ inputs.variables }}}"
+          --environment "Variables={${{ secrets.ENV_VARS }}}"
