@@ -147,7 +147,7 @@ jobs:
             }
 
       - name: Configure lambda environmenr variables
-        if: ${{ inputs.ENV_VARS }}
+        if: ${{ secrets.ENV_VARS }}
         run: |
           aws lambda update-function-configuration \
           --function-name ${{ inputs.lambda_name }} \
