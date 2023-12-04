@@ -19,22 +19,6 @@ on:
         description: The name of the S3 bucket to upload the file to.
         required: true
         type: string
-      api_id:
-        description: The API ID.
-        required: false
-        type: string
-      parent_resource_id:
-        description: The root resource ID.
-        required: false
-        type: string
-      resource_name:
-        description: The resource name.
-        required: false
-        type: string
-      http_method:
-        description: The HTTP method.
-        required: false
-        type: string
       env_name:
         description: 'Name of the environment'
         required: false
@@ -55,11 +39,6 @@ on:
         required: false
         type: string
         default: .aws/templates/lambda.yml
-      integration-template:
-        description: 'Filename with path of the integration template'
-        required: false
-        type: string
-        default: .aws/templates/lambda-api-integration.yml
       security_group_ids:
         description: 'List of security group ids as comma separated string'
         required: false
