@@ -44,6 +44,11 @@ on:
           required: false
           type: string
 
+        deploy_options:
+          description: The deploy options
+          required: false
+          type: string
+
         AWS_DEFAULT_REGION:
           description: The AWS region.
           required: true
